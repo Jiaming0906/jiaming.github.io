@@ -1,0 +1,16 @@
+<ul class="list-unstyled event-list">
+  {% for event in turn.events %}
+    {% set empty = true %}
+    {% set event_html = event | game_event | safe %}
+    {% if event_html %}
+      {% set empty = false %}
+      <li>{{ event_html }}</li>
+    {% endif %}
+  {% endfor %}
+
+  {% if empty %}
+    <li class="text-muted">
+      <i>Nothing of importance happened this turn</i>
+    </li>
+  {% endif %}
+</ul>

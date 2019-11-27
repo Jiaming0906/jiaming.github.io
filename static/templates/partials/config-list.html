@@ -1,0 +1,21 @@
+<table class="table">
+  <tr><td>Map size</td>    <td>{{ round.config.map.size }}</td></tr>
+  <tr><td>Map Wrapped</td> <td>{{ round.config.map.wrap }}</td></tr>
+  <tr><td>Max Turns</td>   <td>{{ round.config.max_steps }}</td></tr>
+</table>
+
+<h4>Items</h4>
+<table class="table">
+  {% for item in round.config['items'] %}
+  <tr>
+    <td>{{ item.type }}</td>
+    <td>{{ item.qty }}</td></tr>
+  {% endfor %}
+</table>
+
+<h4>Periodic Events</h4>
+<ul class="list-unstyled">
+  {% for event in round.config.periodic_events %}
+  <li>{{ event.description }} every {{ event.interval }} turns</li>
+  {% endfor %}
+</ul>

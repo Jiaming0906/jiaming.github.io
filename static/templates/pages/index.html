@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  {% for group in groups %}
+  <div class="col-md-12">
+    <h2 class="text-center group-name">{{ group.title }}</h2>
+
+    <div class="row">
+      {% for game in group.games %}
+      <div class="col-sm-4">
+        <a class="text-center game"
+           href="{{ Path(base_url, group.path, game.file).with_suffix('.html') }}">
+          <h3 class="game-name center">Game {{ loop.index }}</h3>
+          <ul class="list-unstyled">
+            {% for name, score in game.scores | dictsort(by='value') | reverse %}
+              {% if loop.index <= group.winners %}
+                <li class="text-success">
+                  <i class="fa fa-trophy"></i> <strong>{{ name }}</strong>
+                </li>
+              {% else %}
+                <li>{{ name }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+{% endblock %}

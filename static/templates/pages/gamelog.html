@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="col-md-12">
+  <ul class="nav nav-tabs" role="tablist" id="gamelog-tabs">
+    <li role="presentation" class="active">
+      <a href="#overview" aria-controls="overview" role="tab" data-toggle="tab">Overview</a>
+    </li>
+
+    {% for round in rounds %}
+    <li role="presentation">
+      <a href="#round-{{ loop.index }}" aria-controls="overview" role="tab" data-toggle="tab">
+        Round {{ loop.index }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="overview">
+      <h3>Overview</h3>
+      <table class="table">
+        <tr>
+          <th>Tribute</th>
+          {% for round in rounds %}
+          <th>Round {{ loop.index }}</th>
+          {% endfor %}
+          <th>Total Score</th>
+        </tr>
+        {% for name, score in scores | dictsort(by='value') | reverse %}
+        {% if loop.index <= winners %}
+        <tr class="success">
+          <th><i class="fa fa-trophy"></i> {{ name }}</th>
+        {% else %}
+        <tr><th>{{ name }}</th>
+        {% endif %}
+          {% for round in rounds %}
+          <td>{{ round.scores[name] }}</td>
+          {% endfor %}
+          <td><strong>{{ score }}</strong></td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    {% for round in rounds %}
+    <div role="tabpanel" class="tab-pane fade event-log" id="round-{{ loop.index }}">
+      <div class="col-md-3 col-sm-4 game-sidebar">
+        <h3>Scores</h3>
+        {% include 'partials/score-list.html' %}
+        <h3>Config</h3>
+        {% include 'partials/config-list.html' %}
+      </div>
+
+      <div class="col-sm-8 col-md-9">
+        {% for turn in round.history %}
+        <div>
+          <h4>Turn {{ loop.index }}</h4>
+          {% include 'partials/events-list.html' %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+<table class="table">
+  {% for name, score in round.scores | dictsort(by='value') | reverse %}
+  <tr>
+    <td>{{ name }}</td>
+    <td>{{ score }}</td>
+  </tr>
+  {% endfor %}
+</table>
